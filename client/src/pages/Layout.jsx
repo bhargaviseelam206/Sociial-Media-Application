@@ -1,5 +1,3 @@
-
-
 import React from 'react'
 import Sidebar from '../components/Sidebar'
 import { Outlet } from 'react-router-dom'
@@ -13,7 +11,9 @@ const Layout = () => {
   const [sidebarOpen,setSidebarOpen] = useState(false)
   return  user ?(
     <div classNmae='w-full flex h-screen'>
-        <Sidebar/>
+
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+
         <div className='flex-1 bg-slate-50'>
           <Outlet/>
         </div>
