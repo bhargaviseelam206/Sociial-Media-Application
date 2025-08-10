@@ -10,7 +10,7 @@ const Layout = () => {
   const user = dummyUserData
   const [sidebarOpen,setSidebarOpen] = useState(false)
   return  user ?(
-    <div classNmae='w-full flex h-screen'>
+    <div className='w-full flex h-screen'>
 
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
 

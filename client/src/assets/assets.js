@@ -58,21 +58,12 @@ const dummyUser3Data = {
 }
 
 export const dummyStoriesData = [
-    {
-        "_id": "68833d466e4b42b685068860",
-        "user": dummyUserData,
-        "content": "📌 This isn't the story I wanted to tell… not yet. But if you're reading this, know that something interesting is in motion 🔄. The next post will make more sense 🧩.",
-        "media_url": "",
-        "media_type": "text",
-        "background_color": "#4f46e5",
-        "createdAt": "2025-07-25T08:16:06.958Z",
-        "updatedAt": "2025-07-25T08:16:06.958Z",
-    },
+   
     {
         "_id": "688340046e4b42b685068a73",
         "user": dummyUserData,
         "content": "",
-        "media_url": "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
+        "media_url": "https://images.unsplash.com/photo-1593696954577-ab3d39317b97?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZyZWUlMjBpbWFnZXN8ZW58MHx8MHx8fDA%3D",
         "media_type": "image",
         "background_color": "#4f46e5",
         "createdAt": "2025-07-25T08:27:48.134Z",
@@ -92,11 +83,43 @@ export const dummyStoriesData = [
         "_id": "68833e136e4b42b685068937",
         "user": dummyUserData,
         "content": "",
-        "media_url": "https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg",
+        "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUPIfiGgUML8G3ZqsNLHfaCnZK3I5g4tJabQ&s",
         "media_type": "image",
         "background_color": "#4f46e5",
         "createdAt": "2025-07-25T08:19:31.080Z",
         "updatedAt": "2025-07-25T08:19:31.080Z",
+    },
+    {
+        "_id": "68833e136e4b42b685068937",
+        "user": dummyUserData,
+        "content": "",
+        "media_url": "https://media.gettyimages.com/id/992246276/photo/picture-of-a-peacock-at-the-rosy-walter-zoo-located-inside-el-picacho-national-park-in.jpg?s=612x612&w=gi&k=20&c=SaHe038K5y5MnCk7psvn-RyVYPU6gupglokZzVPyI1A=",
+        "media_type": "image",
+        "background_color": "#4f46e5",
+        "createdAt": "2025-07-25T08:19:31.080Z",
+        "updatedAt": "2025-07-25T08:19:31.080Z",
+    },
+    
+    {
+        "_id": "68833e136e4b42b685068937",
+        "user": dummyUserData,
+        "content": "",
+        "media_url": "https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg",
+        "media_type": "image",
+        "background_color": "#4f46e5",
+        "createdAt": "2025-07-25T08:19:31.080Z",
+        "updatedAt": "2025-07-25T08:19:31.080Z",
+    },
+    
+    {
+        "_id": "68833d466e4b42b685068860",
+        "user": dummyUserData,
+        "content": "📌 This isn't the story I wanted to tell… not yet. But if you're reading this, know that something interesting is in motion 🔄. The next post will make more sense 🧩.",
+        "media_url": "https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg",
+        "media_type": "text",
+        "background_color": "#4f46e5",
+        "createdAt": "2025-08-10T08:06:06.958Z",
+        "updatedAt": "2025-07-25T08:16:06.958Z",
     },
     {
         "_id": "68833d706e4b42b685068875",
@@ -117,7 +140,27 @@ export const dummyStoriesData = [
         "background_color": "#4f46e5",
         "createdAt": "2025-07-25T08:13:18.111Z",
         "updatedAt": "2025-07-25T08:13:18.111Z",
-    }
+    },
+    {
+        "_id": "68833c9e6e4b42b6850687e7",
+        "user": dummyUserData,
+        "content": "✨ Something meaningful is on the way. I'm working behind the scenes 🛠️ to bring it all together. This space is just the beginning 🌱. Stay tuned 👀.",
+        "media_url": "",
+        "media_type": "text",
+        "background_color": "#4f46e5",
+        "createdAt": "2025-07-25T08:13:18.111Z",
+        "updatedAt": "2025-07-25T08:13:18.111Z",
+    },
+    {
+        "_id": "68833c9e6e4b42b6850687e7",
+        "user": dummyUserData,
+        "content": "✨ Something meaningful is on the way. I'm working behind the scenes 🛠️ to bring it all together. This space is just the beginning 🌱. Stay tuned 👀.",
+        "media_url": "",
+        "media_type": "text",
+        "background_color": "#4f46e5",
+        "createdAt": "2025-07-25T08:13:18.111Z",
+        "updatedAt": "2025-07-25T08:13:18.111Z",
+    },
 ]
 
 
