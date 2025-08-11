@@ -32,7 +32,7 @@ const StoryModal = ({setShowModal,fetchStories}) => {
           <h2 className='text-lg font-semibold'>Create Story</h2>
           <span className='w-10'></span>
         </div>
-        <div classname='rounded-lg h-96 flex items-center justify-center relative' style={{backgroundColor:background}}>
+        <div className='rounded-lg h-76 flex items-center justify-center relative' style={{backgroundColor:background}}>
           {mode === 'text' && (
             <textarea className='bg-transparent text-white w-full h-full p-6 text-lg resize-none focus:outline-none' placeholder="what's on your mind?"
               onChange={(e)=>setText(e.target.value)} value={text}
