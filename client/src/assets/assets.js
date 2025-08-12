@@ -267,7 +267,8 @@ export const dummyRecentMessagesData = [
         "media_url": "",
         "createdAt": "2025-07-10T12:47:40.510Z",
         "updatedAt": "2025-07-10T12:47:40.510Z",
-        "seen": false
+        "seen": false,
+        unreadCount: 3
     }
 ]
 

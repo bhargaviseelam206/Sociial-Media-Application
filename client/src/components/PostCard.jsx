@@ -4,19 +4,26 @@ import moment from 'moment'
 import { useState } from 'react'
 import { Heart } from 'lucide-react'
 import { dummyUserData } from '../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 
 const PostCard = ({post}) => {
-    const postWithHashtags = post.content.replace(/(#\w+)/g,'<span class="text-indigo-600"> $1</span>')
+    const postWithHashtags = post.content.replace(/(#\w+)/g,'<span class="text-indigo-600">$1</span>')
 
     const[likes,setLikes] =useState(post.likes_count)
     const currentUser =  dummyUserData
 
-    const handleLike = async()=>{}
+    const handleLike = async()=>{
+
+    }
+
+    const navigate = useNavigate()
+
+
   return (
     <div className='bg-white rounded-xl shadow p-4 space-y-4 w-full max-w-2xl'>
         {/*user Info*/}
-        <div className='inline-flex items-center gap-3 cursor-pointer'>
+        <div onClick={()=> navigate(`/profile` + post.user._id)} className='inline-flex items-center gap-3 cursor-pointer'>
             <img src={post.user.profile_picture} alt="" className='w-10 h-10 rounded-full shadow'/>
              <div>
                 <div className='flex items-center space-x-1'>
