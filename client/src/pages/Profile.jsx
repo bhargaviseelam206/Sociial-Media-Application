@@ -13,7 +13,7 @@ const Profile = () => {
   const [user,setUser] = useState(null)
   const [posts,setPosts] = useState([])
   const [activeTab,setActiveTab] = useState('posts')
-  const [showEdit,setShowEdit] = useState('false')
+  const [showEdit,setShowEdit] = useState(false)
   
   const fetchUser = async () =>{
     setUser(dummyUserData)
@@ -64,8 +64,8 @@ const Profile = () => {
                   posts.filter((post)=>post.image_urls.length > 0).map((post)=>(
                     <>
                     {post.image_urls.map((image, index)=>(
-                      <Link target='_blank' to={image} key={index}>
-                        <img src={image} key={index} className='-64 aspect-video object-cover' alt="" />
+                      <Link target='_blank' to={image} key={`${post._id}-${index}`} className='relative group'>
+                        <img src={image} key={index} className='w-64 aspect-video object-cover' alt="" />
                         <p className='absolute bottom-0 right-0 text-xs p-1 px-3 backdrop-blur-xl
                         text-white opacity-0 group-hover:opacity-100 transition duration-300'>Posted {moment(post.createdAt).fromNow()}</p>
                       </Link>
@@ -77,7 +77,8 @@ const Profile = () => {
             )}
           </div>
       </div>
-      
+      {/* Edit Profile Modal */}
+      {showEdit && <p>show profile edit</p>}  
     </div>
   ):(<Loading/>)
 }
