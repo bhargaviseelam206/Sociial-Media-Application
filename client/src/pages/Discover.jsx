@@ -3,10 +3,12 @@ import { useState } from 'react'
 import {dummyConnectionsData} from '../assets/assets'
 import { Search } from 'lucide-react'
 import UserCard from '../components/UserCard'
+import Loading from '../components/Loading'
+
 
 const Discover = () => {
   const [input,setInput] =useState('')
-  const [users,SetUsers] = useState(dummyConnectionsData)
+  const [users,setUsers] = useState(dummyConnectionsData)
   const [loading,setLoading] = useState(false)
 
   const handleSearch = async (e)=>{
@@ -21,7 +23,7 @@ const Discover = () => {
     }
   }
   return (
-    <div className='min-h-screen bg-gradient-to-b from-slate-50 to white'>
+    <div className='min-h-screen bg-gradient-to-b from-slate-50 to-white'>
       <div className='max-w-6xl mx-auto p-6'>
            {/* Title */}
         <div className='mb-8'>

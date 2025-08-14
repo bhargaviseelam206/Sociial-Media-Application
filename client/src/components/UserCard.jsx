@@ -1,11 +1,12 @@
 import React from 'react'
 import { dummyConnectionsData } from '../assets/assets'
+import { dummyUserData } from '../assets/assets'
 import { MapPin, MessageCircle, Plus, UserPlus } from 'lucide-react'
 
 const UserCard = ({user}) => {
-    const currentUser= async()=>{
 
-    }
+    const currentUser = dummyUserData
+
     const handleConnectionRequest = async()=>{
 
     }
@@ -37,7 +38,7 @@ const UserCard = ({user}) => {
             <UserPlus className='w-4 h-4'/>{currentUser?.following?.includes?.(user._id)? 'Following':'Follow'}
         </button>
         {/*connection Request button /message button*/}
-        <button className='flex items-center justify-center w-16 border text-slate-500 group rounded-md cursor-pointer active:scale-95 transition'>
+        <button onClick={handleConnectionRequest} className='flex items-center justify-center w-16 border text-slate-500 group rounded-md cursor-pointer active:scale-95 transition'>
             {
                 currentUser?.connections?.includes?.(user._id)?
                 <MessageCircle className='w-5 h-5 group-hover:scale-105 transition'/>
