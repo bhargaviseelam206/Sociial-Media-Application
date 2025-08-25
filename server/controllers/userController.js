@@ -1,4 +1,5 @@
 import imagekit from "../configs/imageKit.js"
+import Connection from "../models/Connection.js"
 import User from "../models/User.js"
 import fs from 'fs'
 
@@ -23,30 +24,27 @@ export const getUserData = async (req, res) => {
 export const updateUserData = async (req, res) => {
   try {
     const { userId } = req.auth();
-    let parsedBody = req.body;
-    if (req.body.body) {
-    parsedBody = JSON.parse(req.body.body); // 🔥 fix
-    }
-
-    let { username, bio, location, full_name } = parsedBody;
+    let {username, bio, location, full_name } = req.body;
+   
 
     const tempUser = await User.findById(userId);
+
+    !username && (username = tempUser.username)
+
 
     // username check
     if (username && tempUser.username !== username) {
       const user = await User.findOne({ username });
       if (user) {
-        return res.json({ success: false, message: "Username already taken" });
+        username = tempUser.username;
       }
-    } else {
-      username = tempUser.username;
-    }
+    } 
 
     const updatedData = {
       username,
-      bio: bio !== undefined ? bio : tempUser.bio,
-      location: location !== undefined ? location : tempUser.location,
-      full_name: full_name !== undefined ? full_name : tempUser.full_name,
+      bio,
+      location,
+      full_name
     };
 
     // profile upload
@@ -170,3 +168,42 @@ export const unfollowUser = async (req, res) => {
 
 
 
+// Send Connection Request
+export const sendConnectionRequest = async (req, res) => {
+  try{
+    const {userId} = req.auth()
+    const { id } = req.body;
+
+    // Check if user has sent more than 20 connection requests in the last 24 hours 
+    const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000)
+    const connectionRequests = await Connection.find({from_user_id: userId, created_at: {$gt: last24Hours}})
+    if(connectionRequests.length >= 20){
+      return res.json({success: false, message: 'You have sent more than 20 connection requests in the last 24 hours'})
+    }
+
+    // Check if users are already connected 
+    const connection = await Connection.findOne({
+      $or: [
+        {rom_user_id: userId, to_user_id: id},
+        {rom_user_id: id, to_user_id: userId},
+      ]
+    })
+
+    if(!connection){
+      await Connection.create({
+        from_user_id: userId,
+        to_user_id: id
+      })
+      return res.json({success: true, message: 'Connection request sent successfully'})
+    }
+    else if(connection && connection.status === 'accepted') {
+      return res.json({success: false, message: 'you are already connected with this user'})
+    }
+
+    return res.json({success: false, message:'you are already connected with this user'})
+
+  }
+  catch(error){
+
+  }
+}
