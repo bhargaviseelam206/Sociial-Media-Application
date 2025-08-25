@@ -1,5 +1,6 @@
 import { Inngest } from "inngest";
 import User from "../../models/User.js";
+import Connection from "../../models/Connection.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "myConnect-app" });
@@ -55,6 +56,20 @@ const syncUserDeletion = inngest.createFunction(
     async ({event})=>{
         const {id} = event.data
         await User.findByIdAndDelete(id)
+    }
+)
+
+// Inngest function to send Reminder when a new connection request is added
+const sendNewConnectionRequestReminder = inngest.createFunction(
+    { id: "send-new-connection-request-reminder"},
+    {event: "app/connection.request"},
+    async ({ event, step }) => {
+        const {connectionId} = event.data;
+
+        await step.run('send-connection-request-mail', async () => {
+            const connection = await Connection.findById(connectionId).populate('from_user_id to_user_id');
+            const subject = ` `
+        })
     }
 )
 
