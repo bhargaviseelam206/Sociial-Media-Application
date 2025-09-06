@@ -38,7 +38,12 @@ const userSlice = createSlice({
         builder.addCase(fetchUser.fulfilled, (state, action)=>{
             state.value = action.payload
         }).addCase(updateUser.fulfilled, (state, action)=>{
-            state.value = action.payload
+            if (action.payload) {
+                state.value = {
+                ...state.value,
+                ...action.payload,   // merge new data into old state
+                }
+            }
         })
     }
 })

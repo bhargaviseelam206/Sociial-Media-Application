@@ -3,7 +3,7 @@ import { dummyUserData } from '../assets/assets';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../features/user/userSlice';
+import { fetchUser, updateUser } from '../features/user/userSlice';
 import { useAuth } from '@clerk/clerk-react';
 import toast from 'react-hot-toast';
 
@@ -39,8 +39,15 @@ const ProfileModal = ({setShowEdit}) => {
 
 
             const token = await getToken()
-            dispatch(updateUser({userData, token}))
-
+            await toast.promise(
+                dispatch(updateUser({ userData, token })),
+                {
+                    success: "Profile updated successfully!",
+                    error: "Failed to update profile.",
+                }
+            );
+ 
+            await dispatch(fetchUser(token));
             setShowEdit(false)
         }
         catch(error){

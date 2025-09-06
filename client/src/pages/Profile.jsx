@@ -61,9 +61,10 @@ const Profile = () => {
              <div className='h-40 md:h-56 bg-gradient-to-r from-indigo-200
              via-purple-200 to-pink-200'>
               {
-                user.cover_photo && <img src={user.cover_photo} alt=''
+                user.cover_photo && (
+                <img src={user.cover_photo} alt=''
                 className='w-full h-full object-cover'/>
-              }
+              )}
              </div>
              {/*user info*/}
              <UserProfileInfo user={user} posts={posts} profileId={profileId} setShowEdit={setShowEdit} />
