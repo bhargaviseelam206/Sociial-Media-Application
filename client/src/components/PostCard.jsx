@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Heart } from 'lucide-react'
 import { dummyUserData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 
 const PostCard = ({post}) => {
@@ -12,7 +13,7 @@ const PostCard = ({post}) => {
 
     const[likes, setLikes] =useState(post.likes_count)
     const [isLiked, setIsLiked] = useState(post.isLikedByCurrentUser)
-    const currentUser =  dummyUserData
+    const currentUser =  useSelector((state) => state.user.value)
 
     const handleLike = async()=>{
          if (likes.includes(currentUser._id)) {
