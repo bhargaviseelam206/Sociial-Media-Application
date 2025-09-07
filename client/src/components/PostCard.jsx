@@ -6,6 +6,9 @@ import { Heart } from 'lucide-react'
 import { dummyUserData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useAuth } from '@clerk/clerk-react'
+import api from '../api/axios'
+import toast from 'react-hot-toast'
 
 
 const PostCard = ({post}) => {
@@ -15,12 +18,29 @@ const PostCard = ({post}) => {
     const [isLiked, setIsLiked] = useState(post.isLikedByCurrentUser)
     const currentUser =  useSelector((state) => state.user.value)
 
+    const { getToken } = useAuth()
+
     const handleLike = async()=>{
-         if (likes.includes(currentUser._id)) {
-            setLikes(likes.filter(id => id !== currentUser._id))
+        try {
+            const { data } = await api.post(`/api/post/like`, {postId: post._id}, {headers: { Authorization: `Bearer ${await getToken()}` }})
+
+            if (data.success){
+                toast.success(data.message)
+                setLikes(prev => {
+                    if(prev.includes(currentUser._id)){
+                        return prev.filter(id=> id !== currentUser._id)
+                    }
+                    else{
+                        return [...prev, currentUser._id]
+                    }
+                })
+            }
+            else{
+                toast(data.message)
+            }
         }
-        else {
-            setLikes([...likes, currentUser._id])
+        catch (error) {
+            toast.error(error.message)
         }
     }
 
