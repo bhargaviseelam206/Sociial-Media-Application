@@ -13,14 +13,15 @@ export const sseController = (req, res) =>{
     // Set SSE headers
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('COnnection', 'keep-alive')
+    res.setHeader('Connection', 'keep-alive')
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Add the client's response object to the connections object
     connections[userId] = res
 
     // Send an initial event to the client
-    res.write('log: Connected to SSE stream \n\n ');
+    res.write(`data: ${JSON.stringify({ message: "Connected to SSE stream" })}\n\n`);
+
 
     // Handle client disconnection
     req.on('close', ()=>{
@@ -42,7 +43,7 @@ export const sendMessage = async (req, res) => {
 
         if(message_type === 'image'){
             const fileBuffer = fs.readFileSync(image.path);
-            const response = await ImageTrackList.upload({
+            const response = await imagekit.upload({
                 file: fileBuffer,
                 fileName: image.originalname,
             });
@@ -104,7 +105,7 @@ export const getChatMessages = async (req, res) => {
 export const getUserRecentMessages = async (req, res) => {
     try {
         const { userId } = req.auth();
-        const messages = await Message.find({to_user_id: userId}.populate ('from_user_id to_user_id')).sort({ created_at: -1 });
+        const messages = await Message.find({to_user_id: userId}).populate('from_user_id to_user_id').sort({ created_at: -1 });
 
         res.json({ success: true, messages });
     }

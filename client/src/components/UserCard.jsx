@@ -2,18 +2,58 @@ import React from 'react'
 import { dummyConnectionsData } from '../assets/assets'
 import { dummyUserData } from '../assets/assets'
 import { MapPin, MessageCircle, Plus, UserPlus } from 'lucide-react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@clerk/clerk-react'
+import api from '../api/axios'
+import toast from 'react-hot-toast'
+import { fetchUser } from '../features/user/userSlice'
+import { fetchConnections } from '../features/connections/connectionsSlice'
 
 const UserCard = ({user}) => {
 
     const currentUser = useSelector((state) => state.user.value)
+    const {getToken} = useAuth()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const handleConnectionRequest = async()=>{
-
-    }
     const handleFollow = async()=>{
+      try {
 
+        const token = await getToken();
+        const { data } = await api.post('/api/user/follow', {id: user._id}, {headers: { Authorization: `Bearer ${token}` }})
+        if (data.success){
+          toast.success(data.message)
+          dispatch(fetchUser(token))
+          dispatch(fetchConnections(token)) 
+        }
+        else{
+          toast.error(data.message)
+        }
+      } catch (error) {
+        toast.error(error.message)
+      }
     }
+    const handleConnectionRequest= async()=>{
+
+      if(currentUser?.connections?.includes(user._id)){
+        return navigate('/messages/' + user._id)
+      }
+
+      try {
+        const token = await getToken(); // store token
+        const { data } = await api.post('/api/user/connect', {id: user._id}, {headers: { Authorization: `Bearer ${token}` }})
+        if (data.success){
+          toast.success(data.message)
+        }
+        else{
+          toast.error(data.message)
+        }
+      } catch (error) {
+        toast.error(error.message)
+      }
+    }
+
   return (
     <div key={user._id} className='p-4 pt-6 flex flex-col justify-between w-72 shadow border border-gray-200 rounded-md'>
       <div className='text-center'>
