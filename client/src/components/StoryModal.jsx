@@ -58,9 +58,11 @@ const StoryModal = ({setShowModal,fetchStories}) => {
   const handleCreateStory =async()=>{
     const media_type = mode === 'media' ? media?.type.startsWith('image') ? 'image' : "video" : "text";
 
-    if(media_type === "text" && !text){
-      throw new Error("Please enter some text")
+    if (media_type === "text" && !text.trim()) {
+      toast.error("Please enter some text");
+      return;
     }
+
 
     let formData = new FormData();
     formData.append('content', text);
@@ -106,7 +108,7 @@ const StoryModal = ({setShowModal,fetchStories}) => {
               media?.type.startsWith('image')?(
                 <img src={previewUrl} alt="" className='object-contain max-h-full'/>
               ):(
-                <video src={previewUrl} className='object-contain max-h-full'/>
+                <video src={previewUrl} className='object-contain max-h-full' controls/>
               )
               
             )

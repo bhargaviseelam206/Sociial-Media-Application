@@ -52,19 +52,35 @@ const RecentMessages = () => {
       <h3 className="font-semibold text-slate-800 mb-4">Recent Messages</h3>
       <div className="flex flex-col max-h-56 overflow-y-scroll no-scrollbar">
         {messages.map((message, index) => (
-          <Link 
-            to={`/messages/${message.from_user_id._id}`}
+         <Link 
+            to={`/messages/${
+              message.from_user_id._id === user.id 
+                ? message.to_user_id._id   // if I sent it, show receiver
+                : message.from_user_id._id // if I received it, show sender
+            }`}
             key={index} 
             className="flex items-start gap-2 py-2 px-1 hover:bg-slate-100 rounded-md transition"
           >
             <img 
-              src={message.from_user_id.profile_picture} 
-              alt={message.from_user_id.full_name} 
+              src={
+                message.from_user_id._id === user.id
+                  ? message.to_user_id.profile_picture
+                  : message.from_user_id.profile_picture
+              } 
+              alt={
+                message.from_user_id._id === user.id
+                  ? message.to_user_id.full_name
+                  : message.from_user_id.full_name
+              } 
               className="w-8 h-8 rounded-full object-cover" 
             />
             <div className="w-full">
               <div className="flex justify-between">
-                <p className="font-medium truncate">{message.from_user_id.full_name}</p>
+                <p className="font-medium truncate">
+                  {message.from_user_id._id === user.id
+                    ? message.to_user_id.full_name
+                    : message.from_user_id.full_name}
+                </p>
                 <p className="text-[10px] text-slate-400">
                   {moment(message.createdAt).fromNow()}
                 </p>
@@ -74,7 +90,9 @@ const RecentMessages = () => {
                   {message.text ? message.text : '📷 Media'}
                 </p>
                 {!message.seen && (
-                  <span className="bg-indigo-500 text-white w-3 h-3 flex items-center justify-center rounded-full">{message.unreadCount}</span>
+                  <span className="bg-indigo-500 text-white w-3 h-3 flex items-center justify-center rounded-full">
+                    {message.unreadCount}
+                  </span>
                 )}
               </div>
             </div>

@@ -9,8 +9,8 @@ import toast from 'react-hot-toast'
 
 const ChatBox = () => {
   const { messages } = useSelector((state) => state.messages)
-  const { userId } = useParams() // 👈 this is the OTHER user
-  const { userId: loggedInUserId, getToken } = useAuth() // 👈 this is the LOGGED-IN user
+  const { userId } = useParams() // other user
+  const { userId: loggedInUserId, getToken } = useAuth() // logged-in user
   const dispatch = useDispatch()
 
   const [text, setText] = useState('')
@@ -20,13 +20,13 @@ const ChatBox = () => {
 
   const connections = useSelector((state) => state.connections.connections)
 
-  // ✅ FIXED: pass both fromUserId & toUserId
+  // ✅ fetch both users' messages
   const fetchUserMessages = async () => {
     try {
       const token = await getToken()
       dispatch(fetchMessages({
         token,
-        fromUserId: loggedInUserId, 
+        fromUserId: loggedInUserId,
         toUserId: userId
       }))
     } catch (error) {
@@ -34,6 +34,7 @@ const ChatBox = () => {
     }
   }
 
+  // ✅ send message
   const sendMessage = async () => {
     try {
       if (!text && !image) return
@@ -51,7 +52,13 @@ const ChatBox = () => {
       if (data.success) {
         setText('')
         setImage(null)
-        dispatch(addMessage(data.message))
+
+        // ✅ Always keep consistent populated format
+        const message = {
+          ...data.message,
+          from_user_id: { _id: loggedInUserId } // ensure _id is available
+        }
+        dispatch(addMessage(message))
       } else {
         throw new Error(data.message)
       }
@@ -60,6 +67,7 @@ const ChatBox = () => {
     }
   }
 
+  // ✅ fetch on mount & reset on cleanup
   useEffect(() => {
     fetchUserMessages()
     return () => {
@@ -67,6 +75,7 @@ const ChatBox = () => {
     }
   }, [userId])
 
+  // ✅ set current chat user
   useEffect(() => {
     if (connections.length > 0) {
       const user = connections.find(connection => connection._id === userId)
@@ -74,6 +83,7 @@ const ChatBox = () => {
     }
   }, [connections, userId])
 
+  // ✅ auto scroll down
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
@@ -96,26 +106,29 @@ const ChatBox = () => {
           {
             messages
               .slice()
-              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-              .map((message, index) => (
-                <div
-                  key={index}
-                  className={`flex flex-col ${message.from_user_id === loggedInUserId ? 'items-end' : 'items-start'}`}
-                >
-                  <div className={`p-2 text-sm max-w-sm bg-white text-slate-700 rounded-lg shadow 
-                    ${message.from_user_id === loggedInUserId ? 'rounded-br-none' : 'rounded-bl-none'}`}>
-                    {
-                      message.message_type === 'image' &&
-                      <img
-                        src={message.media_url}
-                        className='w-full max-w-sm rounded-lg mb-1'
-                        alt=""
-                      />
-                    }
-                    <p>{message.text}</p>
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // ✅ oldest first
+              .map((message, index) => {
+                const isOwn = message.from_user_id?._id === loggedInUserId
+                return (
+                  <div
+                    key={index}
+                    className={`flex flex-col ${isOwn ? 'items-end' : 'items-start'}`}
+                  >
+                    <div className={`p-2 text-sm max-w-sm bg-white text-slate-700 rounded-lg shadow 
+                      ${isOwn ? 'rounded-br-none' : 'rounded-bl-none'}`}>
+                      {
+                        message.message_type === 'image' &&
+                        <img
+                          src={message.media_url}
+                          className='w-full max-w-sm rounded-lg mb-1'
+                          alt=""
+                        />
+                      }
+                      <p>{message.text}</p>
+                    </div>
                   </div>
-                </div>
-              ))
+                )
+              })
           }
           <div ref={messagesEndRef} />
         </div>
