@@ -70,9 +70,6 @@ const ChatBox = () => {
   // ✅ fetch on mount & reset on cleanup
   useEffect(() => {
     fetchUserMessages()
-    return () => {
-      dispatch(resetMessages())
-    }
   }, [userId])
 
   // ✅ set current chat user
